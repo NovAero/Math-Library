@@ -1,11 +1,11 @@
 #include "Helpers.h"
 
-const float SqrtF(float n)
+const double SqrtF(float n)
 {
 	//lower closest perfect square's root
 	int a = 0;
 	//temporary holder for division
-	float s = 0;
+	double s = 0;
 	//Holds the value of n to be calculate against
 	float nt = n;
 

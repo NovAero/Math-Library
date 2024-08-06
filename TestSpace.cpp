@@ -5,9 +5,9 @@ using namespace std;
 
 int main() {
 
-	float number = 1373.0123f;
+	float number = 132342.0f;
 
-	float sqrtn = SqrtF(number);
+	double sqrtn = SqrtF(number);
 
 	cout << sqrtn << endl;
 
