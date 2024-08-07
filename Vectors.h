@@ -6,9 +6,23 @@ class Vector3
 {
 public:
 
+	Vector3();
+	Vector3(float x, float y, float z);
+	Vector3(Vector3& copy);
+
+	~Vector3();
+
+public:
+
+	Vector3& operator+(Vector3 rhs);
+	Vector3& operator-(Vector3 rhs);
+	Vector3& operator*(Vector3 scale);
+	Vector3& operator/(Vector3 scale);
 
 
-private:
+
+
+public:
 
 	union {
 		struct { float x, y, z; };
@@ -24,7 +38,7 @@ public:
 
 
 
-private:
+public:
 
 	union {
 		struct { float x, y, z, w; };

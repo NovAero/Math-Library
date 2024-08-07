@@ -1,16 +1,16 @@
 #include "Helpers.h"
+#include "Vectors.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
 
-	float number = 132342.0f;
+	Vector3 vector(3,5,7);
+	Vector3 vec2(1, 1, 2);
 
-	double sqrtn = SqrtF(number);
+	Vector3 vec3 = vec2;
 
-	cout << sqrtn << endl;
+	cout << vec3.x;
 
-	cout << number << endl;
-	cout << sqrtn * sqrtn;
 }
