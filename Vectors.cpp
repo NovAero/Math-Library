@@ -1,66 +1,100 @@
 #include "Vectors.h"
+#include <iostream>
 
-Vector3::Vector3()
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                                    Vector3                                           //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+Vector3::Vector3() : Vector3{0}
 {
-
-	x = 0;
-	y = 0;
-	z = 0;
-
 }
-
-Vector3::Vector3(float x, float y, float z)
+Vector3::Vector3(const float x, const float y, const float z) : x{ x }, y{ y }, z{ z }
 {
-	data[0] = x;
-	data[1] = y;
-	data[2] = z;
 }
-
-Vector3::Vector3(Vector3& copy)
-{
-	*this = copy;
-}
-
-Vector3::~Vector3()
+Vector3::Vector3(const float value) : x{ value }, y{ value }, z(value)
 {
 }
 
-
-
-
-
-Vector3& Vector3::operator+(Vector3 rhs)
+float& Vector3::operator[](int index)
 {
+	return data[index];
+}
+const float& Vector3::operator[](int index) const
+{
+	return data[index];
+}
+
+Vector3 Vector3::operator+(Vector3 rhs) const
+{
+	Vector3 sum;
+
 	for (int i = 0; i < 3; ++i) {
-		data[i] = data[i] + rhs.data[i];
+		sum[i] = sum[i] + rhs[i];
+	}	
+
+	return sum;
+}
+
+Vector3 Vector3::operator-(Vector3 rhs) const
+{
+	Vector3 sum;
+
+	for (int i = 0; i < 3; ++i) {
+		sum[i] = sum[i] - rhs[i];
 	}
 
-	return *this;
+	return sum;
 }
 
-Vector3& Vector3::operator-(Vector3 rhs)
+Vector3 Vector3::operator*(float scale) const
 {
-	for (int i = 0; i < 3; ++i) {
-		data[i] = data[i] - rhs.data[i];
-	}
-
-	return *this;
+	return Vector3(x * scale, y * scale, z * scale);
 }
 
-Vector3& Vector3::operator*(Vector3 scale)
+Vector3 Vector3::operator/(float scale) const
 {
-	for (int i = 0; i < 3; ++i) {
-		data[i] = data[i] * scale.data[i];
+	if (scale == 0) {
+		throw std::runtime_error("Cannot divide by 0");
 	}
 
-	return *this;
+	return Vector3(x / scale, y / scale, z / scale);
 }
 
-Vector3& Vector3::operator/(Vector3 scale)
-{
-	for (int i = 0; i < 3; ++i) {
-		data[i] = data[i] / scale.data[i];
-	}
 
-	return *this;
+
+float Vector3::Dot(const Vector3& rhs)
+{
+	return ((x * rhs.x) + (y * rhs.y) + (z * rhs.z));
+}
+float Vector3::Dot(float rhsX, float rhsY, float rhsZ)
+{
+	return ((x * rhsX) + (y * rhsY) + (z * rhsZ));
+}
+
+Vector3 Vector3::Cross(const Vector3& rhs)
+{
+	float a, b, c;
+	a = (y * rhs.z) - (z * rhs.y);
+	b = (z * rhs.x) - (x * rhs.z);
+	c = (x * rhs.y) - (y * rhs.x);
+
+	return Vector3(a, b, c);
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                                    Vector4                                           //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+
+Vector4::Vector4() : Vector4{ 0 }
+{
+}
+
+Vector4::Vector4(const float x, const float y, const float z, const float w) : x{ x }, y{ y }, z{ z }, w{ w }
+{
+}
+
+Vector4::Vector4(const float value) : x{ value }, y{ value }, z{ value }, w{ value }
+{
 }

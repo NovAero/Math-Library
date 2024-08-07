@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="Matrices.h" />
     <ClInclude Include="Vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="Matrices.cpp" />
     <ClCompile Include="TestSpace.cpp" />
     <ClCompile Include="Vectors.cpp" />
   </ItemGroup>

@@ -7,19 +7,26 @@ class Vector3
 public:
 
 	Vector3();
-	Vector3(float x, float y, float z);
-	Vector3(Vector3& copy);
-
-	~Vector3();
+	Vector3(const float x, const float y, const float z);
+	Vector3(const float value);
 
 public:
 
-	Vector3& operator+(Vector3 rhs);
-	Vector3& operator-(Vector3 rhs);
-	Vector3& operator*(Vector3 scale);
-	Vector3& operator/(Vector3 scale);
+	float& operator[](int index);
+	const float& operator[](int index) const;
 
+	Vector3 operator+(const Vector3 rhs) const;
+	Vector3 operator+=(const Vector3 rhs);
+	Vector3 operator-(const Vector3 rhs) const;
+	Vector3 operator-=(const Vector3 rhs);
 
+	Vector3 operator*(float scale) const;
+	Vector3 operator/(float scale) const;
+
+	float Dot(const Vector3& rhs);
+	float Dot(float rhsX, float rhsY, float rhsZ);
+
+	Vector3 Cross(const Vector3& rhs);
 
 
 public:
@@ -36,7 +43,9 @@ class Vector4
 {
 public:
 
-
+	Vector4();
+	Vector4(const float x, const float y, const float z, const float w);
+	Vector4(const float value);
 
 public:
 

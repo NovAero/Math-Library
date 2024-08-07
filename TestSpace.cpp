@@ -6,11 +6,11 @@ using namespace std;
 
 int main() {
 
-	Vector3 vector(3,5,7);
-	Vector3 vec2(1, 1, 2);
+	Vector3 vec1(3.97f, 5.02f, 0.0007f);
+	Vector3 vec3(12.01f, 0.554f, 23.2f);
 
-	Vector3 vec3 = vec2;
+	Vector3 vec2 = vec3.Cross(vec1);
 
-	cout << vec3.x;
+	cout << vec2.x << endl << vec2.y << endl << vec2.z;
 
 }
