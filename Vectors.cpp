@@ -36,6 +36,16 @@ Vector3 Vector3::operator+(Vector3 rhs) const
 	return sum;
 }
 
+Vector3 Vector3::operator+=(const Vector3 rhs)
+{
+
+	for (int i = 0; i < 3; ++i) {
+		data[i] = data[i] + rhs[i];
+	}
+
+	return *this;
+}
+
 Vector3 Vector3::operator-(Vector3 rhs) const
 {
 	Vector3 sum;
@@ -45,6 +55,15 @@ Vector3 Vector3::operator-(Vector3 rhs) const
 	}
 
 	return sum;
+}
+
+Vector3 Vector3::operator-=(const Vector3 rhs)
+{
+	for (int i = 0; i < 3; ++i) {
+		data[i] = data[i] - rhs[i];
+	}
+
+	return *this;
 }
 
 Vector3 Vector3::operator*(float scale) const
@@ -61,7 +80,24 @@ Vector3 Vector3::operator/(float scale) const
 	return Vector3(x / scale, y / scale, z / scale);
 }
 
+bool Vector3::operator==(const Vector3 rhs) const
+{
+	return IsEqual(rhs);
+}
+bool Vector3::operator!=(const Vector3 rhs) const
+{
+	return !(*this == rhs);
+}
+bool Vector3::IsEqual(Vector3 rhs, float precision) const
+{
+	float xDist = fabsf(x - rhs.x);
+	float yDist = fabsf(y - rhs.y);
+	float zDist = fabsf(z - rhs.z);
 
+	return  xDist < precision &&
+			yDist < precision &&
+			zDist < precision;
+}
 
 float Vector3::Dot(const Vector3& rhs)
 {
@@ -82,6 +118,31 @@ Vector3 Vector3::Cross(const Vector3& rhs)
 	return Vector3(a, b, c);
 }
 
+float Vector3::Magnitude() const
+{
+	return SqrtF(MagnitudeSqr());
+}
+
+float Vector3::MagnitudeSqr() const
+{
+	return x * x + y * y + z * z;
+}
+
+void Vector3::Normalise()
+{
+
+	float m = Magnitude();
+
+	if (m < constants::FLOAT_PRECISION) {
+		throw std::runtime_error("Magnitude is zero");
+	}
+
+	x /= m;
+	y /= m;
+	z /= m;
+
+}
+
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 //                                    Vector4                                           //
@@ -89,6 +150,7 @@ Vector3 Vector3::Cross(const Vector3& rhs)
 
 Vector4::Vector4() : Vector4{ 0 }
 {
+	w = 1;
 }
 
 Vector4::Vector4(const float x, const float y, const float z, const float w) : x{ x }, y{ y }, z{ z }, w{ w }

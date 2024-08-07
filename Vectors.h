@@ -1,6 +1,6 @@
 #pragma once
-
 #include "Helpers.h"
+#include <string>
 
 class Vector3
 {
@@ -23,10 +23,21 @@ public:
 	Vector3 operator*(float scale) const;
 	Vector3 operator/(float scale) const;
 
+	bool operator==(const Vector3 rhs) const;
+	bool operator!=(const Vector3 rhs) const;
+
+	bool IsEqual(const Vector3 rhs, float precision = constants::FLOAT_PRECISION) const;
+
 	float Dot(const Vector3& rhs);
 	float Dot(float rhsX, float rhsY, float rhsZ);
 
 	Vector3 Cross(const Vector3& rhs);
+
+	float Magnitude() const;
+	float MagnitudeSqr() const;
+
+	void Normalise();
+
 
 
 public:
@@ -38,6 +49,11 @@ public:
 	};
 
 };
+
+Vector3 operator*(float lhs, Vector3 rhs);
+float DotProduct(const Vector3& v1, const Vector3& v2);
+
+
 
 class Vector4
 {
