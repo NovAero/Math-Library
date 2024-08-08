@@ -2,6 +2,13 @@
 
 const double SqrtF(float n)
 {
+	if (n == 0) {
+		throw std::runtime_error("Can't find sqrtf of zero");
+	}
+	if (n < 0) {
+		n *= -1;
+	}
+
 	//lower closest perfect square's root
 	int a = 0;
 	//temporary holder for division

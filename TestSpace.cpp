@@ -11,9 +11,5 @@ using namespace Mx4Tmpls;
 
 int main() {
 
-	Matrix4 m1 = MakeIdentityM4();
-
-	cout << m1.ToString();
-
-	cout << (m1 * Mx4Tmpls::MakeRotateX4(PI / 2)).ToString();
+	cout << SqrtF(-19);
 }
