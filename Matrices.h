@@ -2,6 +2,9 @@
 #include "Helpers.h"
 #include "Vectors.h"
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                                   Matrix 3x3                                         //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 class Matrix3 {
 public:
@@ -12,7 +15,18 @@ public:
 public:
 	
 	union {
-		struct { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
+		struct { 
+			float m00, m10, m20,
+				  m01, m11, m21,
+				  m02, m12, m22;
+		};
+		struct {
+
+			Vector3 xAxis;
+			Vector3 yAxis;
+			Vector3 zAxis;
+
+		};
 		float m[9];
 		float mm[3][3];
 		Vector3 axis[3];
@@ -54,6 +68,51 @@ static Matrix3 MakeIdentityM3()
 	return identity;
 }
 
+static Matrix3 MakeRotateX(float r)
+{
+	return Matrix3(1,    0,       0,     //xAxis
+				   0, cosf(r), -sinf(r), //yAxis
+				   0, sinf(r), cosf(r)); //zAxis
+}
+//Param: r is radians
+static Matrix3 MakeRotateY(float r)
+{
+	return Matrix3(cosf(r), 0, sinf(r),  //xAxis
+		              0,    1,    0,     //yAxis
+		          -sinf(r), 0, cosf(r)); //zAxis
+}
+//Param: r is radians
+static Matrix3 MakeRotateZ(float r)
+{
+	return Matrix3(cosf(r), -sinf(r), 0, //xAxis
+		           sinf(r),  cosf(r), 0, //yAxis
+		              0,       0,     1);//zAxis
+}
+
+static Matrix3 MakeEuler(float pitch, float yaw, float roll)
+{
+	Matrix3 x = MakeRotateX(pitch);
+	Matrix3 y = MakeRotateY(yaw);
+	Matrix3 z = MakeRotateZ(roll);
+
+	return (z * y * x);
+}
+
+static Matrix3 MakeScale(float xScale, float yScale, float zScale)
+{
+	return Matrix3(xScale, 0, 0,
+		0, yScale, 0,
+		0, 0, zScale);
+}
+static Matrix3 MakeScale(Vector3 scale)
+{
+	return MakeScale(scale.x, scale.y, scale.z);
+}
+
+
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
+//                                   Matrix 4x4                                         //
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
 class Matrix4 {
 public:
@@ -63,14 +122,29 @@ public:
 
 public:
 
+
+
+public:
+
 	union {
-		struct { float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33; };
+		struct {
+			float m00, m10, m20, m30,
+				  m01, m11, m21, m31,
+				  m02, m12, m22, m32,
+				  m03, m13, m23, m33;
+			};
+		
+		struct {
+			Vector4 xAxis;
+			Vector4 yAxis;
+			Vector4 zAxis;
+			Vector4 translation;
+		};
+
 		float m[16];
 		float mm[4][4];
 		Vector4 axis[4];
 	};
-
-	
 
 };
 
@@ -80,7 +154,7 @@ static Matrix4 MakeIdentityM4()
 	//xAxis
 	identity.m00 = 1;
 	identity.m01 = 0;
-	identity.m02 = 0;
+	identity.m01 = 0;
 	identity.m03 = 0;
 
 	//yAxis

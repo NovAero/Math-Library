@@ -1,6 +1,7 @@
 #pragma once
 #include "Helpers.h"
 #include <string>
+#include <cmath>
 
 class Vector3
 {
@@ -37,7 +38,11 @@ public:
 	float MagnitudeSqr() const;
 
 	void Normalise();
+	Vector3 Normalised() const;
 
+	float Distance(const Vector3& other) const;
+
+	std::string ToString() const;
 
 
 public:
@@ -62,6 +67,17 @@ public:
 	Vector4();
 	Vector4(const float x, const float y, const float z, const float w);
 	Vector4(const float value);
+
+public:
+
+	Vector4& operator+=(const Vector4& other);
+	Vector4& operator -= (const Vector4& other);
+	Vector4& operator -= (float& scalar);
+	float& operator[](const int index);
+	float operator[](const int index) const;
+	float Magnitude() const;
+	void Normalise();
+	float Dot(const Vector4& other) const;
 
 public:
 
