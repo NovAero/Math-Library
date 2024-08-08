@@ -5,13 +5,15 @@
 
 using namespace std;
 using namespace constants;
+using namespace Mx3Tmpls;
+using namespace Mx4Tmpls;
+
 
 int main() {
 
-	Matrix4 m1(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16);
-	
+	Matrix4 m1 = MakeIdentityM4();
+
 	cout << m1.ToString();
 
-	Vector4 result = m1 * Vector4(2, 2, 2, 1);
-	cout << result.x << endl << result.y << endl << result.z << endl << result.w;
+	cout << (m1 * Mx4Tmpls::MakeRotateX4(PI / 2)).ToString();
 }
