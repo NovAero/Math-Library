@@ -15,10 +15,10 @@ public:
 public:
 	
 	union {
-		struct { 
-			float m00, m10, m20,
-				  m01, m11, m21,
-				  m02, m12, m22;
+		struct { // float mROW_COLUMN
+			float m00, m10, m20, //X axis
+				  m01, m11, m21, //Y axis
+				  m02, m12, m22; //Z axis
 		};
 		struct {
 
@@ -52,17 +52,17 @@ static const Matrix3 MakeIdentityM3()
 	Matrix3 identity;
 	//xAxis
 	identity.m00 = 1;
-	identity.m01 = 0;
-	identity.m02 = 0;
+	identity.m10 = 0;
+	identity.m20 = 0;
 
 	//yAxis
-	identity.m10 = 0;
+	identity.m01 = 0;
 	identity.m11 = 1;
-	identity.m12 = 0;
+	identity.m21 = 0;
 
 	//zAxis
-	identity.m20 = 0;
-	identity.m21 = 0;
+	identity.m02 = 0;
+	identity.m12 = 0;
 	identity.m22 = 1;
 
 	return identity;
@@ -143,7 +143,7 @@ public:
 				  m01, m11, m21, m31,
 				  m02, m12, m22, m32,
 				  m03, m13, m23, m33;
-			};
+		};
 		
 		struct {
 			Vector4 xAxis;
@@ -154,7 +154,7 @@ public:
 
 		float m[16];
 		float mm[4][4];
-		Vector4 axis[4];
+		Vector4 row[4];
 	};
 
 };

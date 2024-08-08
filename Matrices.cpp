@@ -14,24 +14,26 @@ Matrix3::Matrix3(float m00, float m01, float m02, float m10, float m11, float m1
 {
 	//X axis
 	this->m00 = m00;
-	this->m01 = m01;
-	this->m02 = m02;
+	this->m10 = m01;
+	this->m20 = m02;
 
 	//Y axis
-	this->m10 = m10;
+	this->m01 = m10;
 	this->m11 = m11;
-	this->m12 = m12;
+	this->m21 = m12;
 
 	//Z axis
-	this->m20 = m20;
-	this->m21 = m21;
+	this->m02 = m20;
+	this->m12 = m21;
 	this->m22 = m22;
 
 }
 
 Matrix3 Matrix3::Transposed() const
 {
-	return Matrix3(m00, m10, m20, m01, m11, m21, m02, m12, m22);
+	return Matrix3(m00, m01, m02,
+				   m10, m11, m12,
+				   m20, m21, m22);
 }
 
 Vector3 Matrix3::GetRow(int index) const
@@ -40,13 +42,13 @@ Vector3 Matrix3::GetRow(int index) const
 	switch (index)
 	{
 	case 0:
-		vec = Vector3(m00, m10, m20);
+		vec = Vector3(m00, m01, m02);
 		break;
 	case 1:
-		vec = Vector3(m01, m11, m21);
+		vec = Vector3(m10, m11, m21);
 		break;
 	case 2:
-		vec = Vector3(m02, m12, m22);
+		vec = Vector3(m20, m21, m22);
 		break;
 	}
 	return vec;
@@ -77,9 +79,9 @@ Matrix3 Matrix3::operator*(Matrix3 rhs) const
 Vector3 Matrix3::operator*(Vector3 rhs) const
 {
 	return Vector3(
-		Vector3(m00, m10, m20).Dot(rhs),
-		Vector3(m01, m11, m21).Dot(rhs),
-		Vector3(m02, m12, m22).Dot(rhs)
+		Vector3(m00, m01, m02).Dot(rhs),
+		Vector3(m10, m11, m12).Dot(rhs),
+		Vector3(m20, m21, m22).Dot(rhs)
 	);
 }
 
