@@ -133,16 +133,19 @@ public:
 	Vector4 operator*(const Vector4& v) const;
 	Matrix4 operator*(const Matrix4& other) const;
 
+	float& operator[](int dim);
+	const float& operator[](int dim) const;
+	
 	std::string ToString();
 
 public:
 
 	union {
-		struct { //X    Y    Z    T
-			float m00, m10, m20, m30,
-				  m01, m11, m21, m31,
-				  m02, m12, m22, m32,
-				  m03, m13, m23, m33;
+		struct { //ROW,COLUMN
+			float m00, m10, m20, m30,//X axis
+				  m01, m11, m21, m31,//Y axis
+				  m02, m12, m22, m32,//Z axis
+				  m03, m13, m23, m33;//Translation
 		};
 		
 		struct {
@@ -154,7 +157,7 @@ public:
 
 		float m[16];
 		float mm[4][4];
-		Vector4 row[4];
+		Vector4 axis[4];
 	};
 
 };
@@ -164,26 +167,26 @@ static const Matrix4 MakeIdentityM4()
 	Matrix4 identity;
 	//xAxis
 	identity.m00 = 1;
-	identity.m01 = 0;
-	identity.m02 = 0;
-	identity.m03 = 0;
+	identity.m10 = 0;
+	identity.m20 = 0;
+	identity.m30 = 0;
 
 	//yAxis
-	identity.m10 = 0;
+	identity.m01 = 0;
 	identity.m11 = 1;
-	identity.m12 = 0;
-	identity.m13 = 0;
+	identity.m21 = 0;
+	identity.m31 = 0;
 
 	//zAxis
-	identity.m20 = 0;
-	identity.m21 = 0;
+	identity.m02 = 0;
+	identity.m12 = 0;
 	identity.m22 = 1;
-	identity.m23 = 0;
+	identity.m32 = 0;
 
 	//Local Position
-	identity.m30 = 0;
-	identity.m31 = 0;
-	identity.m32 = 0;
+	identity.m03 = 0;
+	identity.m13 = 0;
+	identity.m23 = 0;
 	identity.m33 = 1;
 
 	return identity;

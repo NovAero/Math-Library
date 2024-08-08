@@ -58,8 +58,6 @@ public:
 Vector3 operator*(float lhs, Vector3 rhs);
 float DotProduct(const Vector3& v1, const Vector3& v2);
 
-
-
 class Vector4
 {
 public:
@@ -72,7 +70,8 @@ public:
 
 	Vector4& operator+=(const Vector4& other);
 	Vector4& operator -= (const Vector4& other);
-	Vector4& operator -= (float& scalar);
+	Vector4& operator *= (float& scalar);
+
 	float& operator[](const int index);
 	float operator[](const int index) const;
 	float Magnitude() const;
@@ -88,3 +87,5 @@ public:
 	};
 
 };
+
+Vector4 operator*(float lhs, Vector4 rhs);

@@ -130,26 +130,26 @@ Matrix4::Matrix4(float m00, float m01, float m02, float m03, float m10, float m1
 {
 	//X axis
 	this->m00 = m00;
-	this->m01 = m01;
-	this->m02 = m02;
-	this->m03 = m03;
+	this->m10 = m01;
+	this->m20 = m02;
+	this->m30 = m03;
 
 	//Y axis
-	this->m10 = m10;
+	this->m01 = m10;
 	this->m11 = m11;
-	this->m12 = m12;
-	this->m13 = m13;
+	this->m21 = m12;
+	this->m31 = m13;
 	
 	//Z axis
-	this->m20 = m20;
-	this->m21 = m21;
+	this->m02 = m20;
+	this->m12 = m21;
 	this->m22 = m22;
-	this->m23 = m23;
+	this->m32 = m23;
 	
 	//local pos
-	this->m30 = m30;
-	this->m31 = m31;
-	this->m32 = m32;
+	this->m03 = m30;
+	this->m13 = m31;
+	this->m23 = m32;
 	this->m33 = m33;
 }
 
@@ -159,16 +159,16 @@ Vector4 Matrix4::GetRow(int index) const
 	switch (index)
 	{
 	case 0:
-		vec = Vector4(m00, m10, m20, m30);
+		vec = Vector4(m00, m01, m02, m03);
 		break;		
 	case 1:			
-		vec = Vector4(m01, m11, m21, m31);
+		vec = Vector4(m10, m11, m12, m13);
 		break;		
 	case 2:			
-		vec = Vector4(m02, m12, m22, m32);
+		vec = Vector4(m20, m21, m22, m23);
 		break;
 	case 3:
-		vec = Vector4(m03, m13, m23, m33);
+		vec = Vector4(m30, m31, m32, m33);
 		break;
 	}
 	return vec;
@@ -220,7 +220,7 @@ Matrix4 Matrix4::operator*(const Matrix4& other) const {
 	for (int r = 0; r < 4; ++r) {
 		for (int c = 0; c < 4; ++c) {
 			float v = 0.0f;
-			for (int i = 0; 0 < 4; ++i) {
+			for (int i = 0; i < 4; ++i) {
 				v += mm[i][r] * other.mm[c][i];
 			}
 			result.mm[c][r] = v;
@@ -229,10 +229,20 @@ Matrix4 Matrix4::operator*(const Matrix4& other) const {
 	return result;
 }
 
+float& Matrix4::operator[](int dim)
+{
+	return m[dim];
+}
+
+const float& Matrix4::operator[](int dim) const
+{
+	return m[dim];
+}
+
 std::string Matrix4::ToString()
 {
 	//make header
-	std::string str = ("|   x    |    y   |    z   |    L   |\n|--------|--------|--------|--------| \n");
+	std::string str = ("|   x    |    y   |    z   |    T   |\n|--------|--------|--------|--------| \n");
 
 
 	for (int i = 0; i < 4; i++)
