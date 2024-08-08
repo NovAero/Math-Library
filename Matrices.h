@@ -47,7 +47,7 @@ public:
 
 };
 
-static Matrix3 MakeIdentityM3()
+static const Matrix3 MakeIdentityM3()
 {
 	Matrix3 identity;
 	//xAxis
@@ -118,16 +118,27 @@ class Matrix4 {
 public:
 
 	Matrix4();
-	Matrix4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33);
+	Matrix4(float m00, float m01, float m02, float m03, //X axis
+			float m10, float m11, float m12, float m13, //Y axis
+			float m20, float m21, float m22, float m23, //Z axis
+			float m30, float m31, float m32, float m33);//Translation
 
 public:
 
+	Vector4 GetRow(int index) const;
 
+	void SetScaled(float x, float y, float z);
+	void SetRotateX(float radians);
+	void Translate(float x, float y, float z);
+	Vector4 operator*(const Vector4& v) const;
+	Matrix4 operator*(const Matrix4& other) const;
+
+	std::string ToString();
 
 public:
 
 	union {
-		struct {
+		struct { //X    Y    Z    T
 			float m00, m10, m20, m30,
 				  m01, m11, m21, m31,
 				  m02, m12, m22, m32,
@@ -148,13 +159,13 @@ public:
 
 };
 
-static Matrix4 MakeIdentityM4()
+static const Matrix4 MakeIdentityM4()
 {
 	Matrix4 identity;
 	//xAxis
 	identity.m00 = 1;
 	identity.m01 = 0;
-	identity.m01 = 0;
+	identity.m02 = 0;
 	identity.m03 = 0;
 
 	//yAxis

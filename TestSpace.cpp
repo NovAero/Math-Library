@@ -8,10 +8,9 @@ using namespace std;
 int main() {
 
 
-	Matrix3 m1;
+	Matrix4 m1;
 
-	m1 = MakeScale(Vector3(7,4,9));
+	m1 = MakeIdentityM4();
 
 	cout << m1.ToString();
-
 }
