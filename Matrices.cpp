@@ -5,27 +5,35 @@
 //                                   Matrix 3x3                                         //
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~//
 
-Matrix3::Matrix3()
+Matrix3::Matrix3() : Matrix3{ 0 }
 {
-	m00 = m01 = m02 = m10 = m11 = m12 = m20 = m21 = m22 = 0.0f;
+
 }
 
-Matrix3::Matrix3(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22)
+Matrix3::Matrix3(float m00, float m10, float m20, float m01, float m11, float m21, float m02, float m12, float m22)
 {
 	//X axis
 	this->m00 = m00;
-	this->m10 = m01;
-	this->m20 = m02;
+	this->m10 = m10;
+	this->m20 = m20;
 
 	//Y axis
-	this->m01 = m10;
+	this->m01 = m01;
 	this->m11 = m11;
-	this->m21 = m12;
+	this->m21 = m21;
 
 	//Z axis
-	this->m02 = m20;
-	this->m12 = m21;
+	this->m02 = m02;
+	this->m12 = m12;
 	this->m22 = m22;
+
+}
+
+Matrix3::Matrix3(float numbers[])
+{
+	for (int i = 0; i < 9; ++i) {
+		m[i] = numbers[i];
+	}
 
 }
 
@@ -52,6 +60,28 @@ Vector3 Matrix3::GetRow(int index) const
 		break;
 	}
 	return vec;
+}
+
+Matrix3::operator float* () const
+{
+	return const_cast<float*>(m);
+}
+
+bool Matrix3::operator==(const Matrix3& rhs) const
+{
+	return IsEqual(rhs);
+}
+
+bool Matrix3::operator!=(const Matrix3& rhs) const
+{
+	return !(*this == rhs);
+}
+
+bool Matrix3::IsEqual(const Matrix3& rhs, const float precision) const
+{
+	return (xAxis.IsEqual(rhs.xAxis, precision) &&
+		    yAxis.IsEqual(rhs.yAxis, precision) &&
+		    zAxis.IsEqual(rhs.zAxis, precision));
 }
 
 Matrix3 Matrix3::operator*(Matrix3 rhs) const
@@ -126,31 +156,39 @@ Matrix4::Matrix4()
 	}
 }
 
-Matrix4::Matrix4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
+Matrix4::Matrix4(float m00, float m10, float m20, float m30, float m01, float m11, float m21, float m31, float m02, float m12, float m22, float m32, float m03, float m13, float m23, float m33)
 {
 	//X axis
 	this->m00 = m00;
-	this->m10 = m01;
-	this->m20 = m02;
-	this->m30 = m03;
+	this->m10 = m10;
+	this->m20 = m20;
+	this->m30 = m30;
 
 	//Y axis
-	this->m01 = m10;
+	this->m01 = m01;
 	this->m11 = m11;
-	this->m21 = m12;
-	this->m31 = m13;
-	
+	this->m21 = m21;
+	this->m31 = m31;
+
 	//Z axis
-	this->m02 = m20;
-	this->m12 = m21;
+	this->m02 = m02;
+	this->m12 = m12;
 	this->m22 = m22;
-	this->m32 = m23;
-	
+	this->m32 = m32;
+
 	//local pos
-	this->m03 = m30;
-	this->m13 = m31;
-	this->m23 = m32;
+	this->m03 = m03;
+	this->m13 = m13;
+	this->m23 = m23;
 	this->m33 = m33;
+}
+
+Matrix4::Matrix4(float numbers[])
+{
+	for (int i = 0; i < 16; ++i) {
+		m[i] = numbers[i];
+	}
+
 }
 
 Vector4 Matrix4::GetRow(int index) const
@@ -193,6 +231,29 @@ void Matrix4::SetRotateX(float radians) {
 void Matrix4::Translate(float x, float y, float z) {
 	// apply vector offset
 	translation += Vector4(x, y, z, 0);
+}
+
+Matrix4::operator float* () const
+{
+	return const_cast<float*>(m);
+}
+
+bool Matrix4::operator==(const Matrix4& rhs) const
+{
+	return IsEqual(rhs);
+}
+
+bool Matrix4::operator!=(const Matrix4& rhs) const
+{
+	return !(*this == rhs);
+}
+
+bool Matrix4::IsEqual(const Matrix4& rhs, const float precision) const
+{
+	return (xAxis.IsEqual(rhs.xAxis, precision) &&
+			yAxis.IsEqual(rhs.yAxis, precision) &&
+			zAxis.IsEqual(rhs.zAxis, precision) &&
+			translation.IsEqual(rhs.translation, precision));
 }
 
 // binary * operator
@@ -239,7 +300,7 @@ const float& Matrix4::operator[](int dim) const
 	return m[dim];
 }
 
-std::string Matrix4::ToString()
+std::string Matrix4::ToString() const
 {
 	//make header
 	std::string str = ("|   x    |    y   |    z   |    T   |\n|--------|--------|--------|--------| \n");

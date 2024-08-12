@@ -27,6 +27,8 @@ public:
 	bool operator==(const Vector3 rhs) const;
 	bool operator!=(const Vector3 rhs) const;
 
+	operator float*() const;
+
 	bool IsEqual(const Vector3 rhs, float precision = constants::FLOAT_PRECISION) const;
 
 	float Dot(const Vector3& rhs);
@@ -68,15 +70,31 @@ public:
 
 public:
 
+	operator float* () const;
+
+	bool operator==(const Vector4& rhs) const;
+	bool operator!=(const Vector4& rhs) const;
+	bool IsEqual(Vector4 rhs, float precision = constants::FLOAT_PRECISION) const;
+
+	Vector4 operator+(const Vector4 rhs) const;
+	Vector4 operator-(const Vector4 rhs) const;
+	Vector4 operator*(float scale) const;
+	Vector4 operator/(float scale) const;
+
 	Vector4& operator+=(const Vector4& other);
-	Vector4& operator -= (const Vector4& other);
-	Vector4& operator *= (float& scalar);
+	Vector4& operator-=(const Vector4& other);
+	Vector4& operator*=(float& scalar);
 
 	float& operator[](const int index);
 	float operator[](const int index) const;
 	float Magnitude() const;
 	void Normalise();
+	Vector4 Normalised();
+
 	float Dot(const Vector4& other) const;
+	Vector4 Cross(const Vector4& rhs) const;
+
+	std::string ToString() const;
 
 public:
 
@@ -86,6 +104,8 @@ public:
 		float data[4];
 	};
 
+
 };
 
 Vector4 operator*(float lhs, Vector4 rhs);
+float DotProduct(const Vector4& vec1, const Vector4& vec2);
